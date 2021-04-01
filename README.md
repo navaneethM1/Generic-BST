@@ -2,6 +2,7 @@
 Generic Binary Search Tree implementation using C++ templates and Compare predicate
 
 Bst.h: header file along with implementation - cant separate into .h and .cpp because templates have to be declared & defined in the same file
+
 Client.cpp: client file
 
 # Note
