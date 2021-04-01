@@ -13,5 +13,5 @@ print function and printUtil function were copied from gfg!!
 3. Bst.c: 3rd semester’s bst code - has logic for insert, remove, search, height, etc
 
 # Todo
-[] Search, Delete, Traversal Orders and remaining functions
-[] Provide iterator_traits
+1. Search, Delete, Traversal Orders and remaining functions
+2. Provide iterator_traits
