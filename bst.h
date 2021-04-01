@@ -42,6 +42,11 @@ class BST
 	static TreeNode<T> *max(TreeNode<T> *node);
 	static TreeNode<T> *inorder_successor(TreeNode<T> *node);
 	static TreeNode<T> *inorder_predecessor(TreeNode<T> *node);
+	void preorder_(TreeNode<T> *node);
+	void inorder_(TreeNode<T> *node);
+	void postorder_(TreeNode<T> *node);
+	int leafcount_(TreeNode<T> *node);
+	int height_(TreeNode<T> *node);
 	public:
 	BST() : root(new TreeNode<T>(T())), dummy(nullptr), cmp(Compare()), cnt(0) { dummy = root; }
 	~BST() { release(root); }
@@ -96,17 +101,17 @@ class BST
 	void insert(T x);
 	Iterator search(T x);
 	void remove(T x);
-	void preorder();
-	void inorder();
-	void postorder();
-	int totalcount() { return cnt; }
-	int leafcount();
-	int height();
+	void preorder()			{ cout << "Preorder:  "; preorder_(root); cout << "\n"; }
+	void inorder()			{ cout << "Inorder:   "; inorder_(root); cout << "\n"; }
+	void postorder()		{ cout << "Postorder: "; postorder_(root); cout << "\n"; }
+	int totalcount()		{ return cnt; }
+	int leafcount()			{ return leafcount_(root); }
+	int height()			{ return height_(root); }
 	void print();
-	Iterator min_element() { return Iterator(min(root)); }
-	Iterator max_element() { return cnt == 0 ? Iterator(dummy) : Iterator(max(root)->parent); }
-	Iterator begin() { return Iterator(min(root)); }
-	Iterator end() { return Iterator(dummy); }
+	Iterator min_element()	{ return Iterator(min(root)); }
+	Iterator max_element()	{ return cnt == 0 ? Iterator(dummy) : Iterator(max(root)->parent); }
+	Iterator begin()		{ return Iterator(min(root)); }
+	Iterator end()			{ return Iterator(dummy); }
 };
 
 
@@ -159,6 +164,59 @@ TreeNode<T> *BST<T, Compare>::inorder_predecessor(TreeNode<T> *node)
 		p = p->parent;
 	}
 	return p;
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::preorder_(TreeNode<T> *node)
+{
+	if(node == nullptr || node == dummy)
+		return;
+	cout << node->data << "\t";
+	preorder_(node->left);
+	preorder_(node->right);
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::inorder_(TreeNode<T> *node)
+{
+	if(node == nullptr || node == dummy)
+		return;
+	inorder_(node->left);
+	cout << node->data << "\t";
+	inorder_(node->right);
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::postorder_(TreeNode<T> *node)
+{
+	if(node == nullptr || node == dummy)
+		return;
+	postorder_(node->left);
+	postorder_(node->right);
+	cout << node->data << "\t";
+}
+
+
+template<typename T, typename Compare>
+int BST<T, Compare>::leafcount_(TreeNode<T> *node)
+{
+	if(node == nullptr || node == dummy)
+		return 0;
+	if( node->left == nullptr && ( node->right == nullptr || node->right == dummy ) )
+		return 1;
+	return leafcount_(node->left) + leafcount_(node->right);
+}
+
+template<typename T, typename Compare>
+int BST<T, Compare>::height_(TreeNode<T> *node)
+{
+	if(node == nullptr || node == dummy)
+		return -1;
+	int lh = height_(node->left);
+	int rh = height_(node->right);
+	if(lh > rh)
+		return lh + 1;
+	return rh + 1;
 }
 
 template<typename T, typename Compare>

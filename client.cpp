@@ -67,12 +67,19 @@ int main()
 	{
 		cout << "not found\n\n";
 	}
-	
+
+	bst.preorder();
+	bst.inorder();
+	bst.postorder();
+	cout << "\n";
+
+	cout << "Leafcount: " << bst.leafcount() << "\n";
+	cout << "Height: " << bst.height() << "\n\n";
 
 	return 0;
 #endif
 
-#if 0
+#if 1
 	BST<int> bst;
 	bst.insert(50);
 	bst.insert(30);
@@ -127,6 +134,14 @@ int main()
 	{
 		cout << "not found\n\n";
 	}
+
+	bst.preorder();
+	bst.inorder();
+	bst.postorder();
+	cout << "\n";
+
+	cout << "Leafcount: " << bst.leafcount() << "\n";
+	cout << "Height: " << bst.height() << "\n\n";
 
 	return 0;
 #endif
