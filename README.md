@@ -11,3 +11,7 @@ print function and printUtil function were copied from gfg!!
 1. 1_acc.cpp: sir’s code which shows how to implement Iterator class
 2. 1_set.cpp: sir’s code which shows how to give a custom compare type
 3. Bst.c: 3rd semester’s bst code - has logic for insert, remove, search, height, etc
+
+# Todo
+[] Search, Delete, Traversal Orders and remaining functions
+[] Provide iterator_traits
