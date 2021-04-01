@@ -340,3 +340,48 @@ void BST<T, Compare>::print()
     printUtil(root, 0); 
     printf("\n");
 }
+
+template<typename T>
+void preorder_(TreeNode<T>* root, TreeNode<T>* dummy){
+	if(root == nullptr || root == dummy)
+		return;
+	cout << root->data << "\t";
+	preorder_(root->left, dummy);
+	preorder_(root->right, dummy);
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::preorder(){
+	preorder_(root, dummy);
+	cout << "\n";
+}
+
+template<typename T>
+void inorder_(TreeNode<T>* root, TreeNode<T>* dummy){
+	if(root == nullptr || root == dummy)
+		return;
+	inorder_(root->left, dummy);
+	cout << root->data << "\t";
+	inorder_(root->right, dummy);
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::inorder(){
+	inorder_(root, dummy);
+	cout << "\n";
+}
+
+template<typename T>
+void postorder_(TreeNode<T>* root, TreeNode<T>* dummy){
+	if(root == nullptr || root == dummy)
+		return;
+	postorder_(root->left, dummy);
+	postorder_(root->right, dummy);
+	cout << root->data << "\t";
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::postorder(){
+	postorder_(root, dummy);
+	cout << "\n";
+}
