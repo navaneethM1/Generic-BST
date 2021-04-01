@@ -46,6 +46,18 @@ int main()
 	cout << *it;
 	cout << "\n\n";
 
+	auto itf = find(bst.begin(), bst.end(), "zebra");
+	if(itf != bst.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
+
+	cout << count(bst.begin(), bst.end(), "nothing") << "\n\n";
+
 	return 0;
 #endif
 
@@ -82,6 +94,18 @@ int main()
 	}
 	cout << *it;
 	cout << "\n\n";
+
+	auto itf = find(bst.begin(), bst.end(), 90);
+	if(itf != bst.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
+
+	cout << count(bst.begin(), bst.end(), 40) << "\n\n";
 
 	return 0;
 #endif

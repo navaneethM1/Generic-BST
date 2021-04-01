@@ -75,7 +75,7 @@ class BST
 			--*this;
 			return temp;
 		}
-		T& operator*()
+		const T& operator*()
 		{
 			return p_it_->data;
 		}
@@ -87,6 +87,11 @@ class BST
 		{
 			return !(*this == rhs);
 		}
+		typedef ptrdiff_t difference_type; // almost always ptrdiff_t
+		typedef T value_type; // almost always T
+		typedef const TreeNode<T>& reference; // almost always T& or const T&
+		typedef const TreeNode<T>* pointer; // almost always T* or const T*
+		typedef bidirectional_iterator_tag iterator_category;  // usually std::forward_iterator_tag or similar
 	};
 	void insert(T x);
 	Iterator search(T x);
