@@ -182,6 +182,7 @@ void BST<T, Compare>::insert(T x)
 			bool lesser = cmp(x, curr->data);
 			if(!lesser && !cmp(curr->data, x))
 			{
+				// duplicates not allowed
 				return;
 			}
 			if(lesser)
@@ -210,6 +211,31 @@ void BST<T, Compare>::insert(T x)
 		}
 		temp->parent = prev;
 	}
+}
+
+template<typename T, typename Compare>
+typename BST<T, Compare>::Iterator BST<T, Compare>::search(T x)
+{
+	if(cnt == 0)
+		return end();
+	TreeNode<T> *curr = root;
+	bool lesser = cmp(x, curr->data);
+	while( curr && curr != dummy && ! ( !lesser && !cmp(curr->data, x) ) )
+	{
+		if(lesser)
+		{
+			curr = curr->left;
+		}
+		else
+		{
+			curr = curr->right;
+		}
+		if(curr && curr != dummy)
+			lesser = cmp(x, curr->data);
+	}
+	if(curr == nullptr || curr == dummy)
+		return end();
+	return Iterator(curr);
 }
 
 template<typename T, typename Compare>

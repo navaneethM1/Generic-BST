@@ -58,6 +58,17 @@ int main()
 
 	cout << count(bst.begin(), bst.end(), "nothing") << "\n\n";
 
+	itf = bst.search("ashok");
+	if(itf != bst.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
+	
+
 	return 0;
 #endif
 
@@ -106,6 +117,16 @@ int main()
 	}
 
 	cout << count(bst.begin(), bst.end(), 40) << "\n\n";
+
+	itf = bst.search(150);
+	if(itf != bst.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
 
 	return 0;
 #endif
