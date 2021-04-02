@@ -16,3 +16,8 @@ print function and printUtil function were copied from gfg!!
 # Todo
 1. remove function
 2. Check iterator_traits
+
+# Requirements for T type
+1. Default Constructor : new TreeNode<T>(T())
+2. Optionally provide binary predicate for < comparision : cmp(x, curr->data)
+3. Must provide << operator : cout << *it
