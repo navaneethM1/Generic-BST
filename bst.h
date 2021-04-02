@@ -134,7 +134,7 @@ template<typename T, typename Compare>
 void BST<T, Compare>::printUtil(TreeNode<T> *root, int space) 
 { 
     // Base case 
-    if (root == nullptr || root == dummy) 
+    if (root == nullptr) 
         return; 
   
     // Increase distance between levels 
@@ -330,4 +330,82 @@ typename BST<T, Compare>::Iterator BST<T, Compare>::search(T x)
 	if(curr == nullptr || curr == dummy)
 		return end();
 	return Iterator(curr);
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::remove(T x)
+{
+	if(cnt == 0)
+		return;
+	TreeNode<T> *curr = root;
+	bool lesser = cmp(x, curr->data);
+	while( curr && curr != dummy && ! ( !lesser && !cmp(curr->data, x) ) )
+	{
+		if(lesser)
+		{
+			curr = curr->left;
+		}
+		else
+		{
+			curr = curr->right;
+		}
+		if(curr && curr != dummy)
+			lesser = cmp(x, curr->data);
+	}
+	if(curr == nullptr || curr == dummy)
+	{
+		// x not found
+		return;
+	}
+	--cnt;
+	// if one subtree present or no subtrees
+	TreeNode<T> *q;
+	if(curr->left == nullptr || (curr->right == nullptr || curr->right == dummy))
+	{
+		if(curr->left == nullptr)
+			q = curr->right;
+		else
+			q = curr->left;
+		if(curr->parent == nullptr)
+		{
+			root = q;
+		}
+		else if(curr == curr->parent->left)
+		{
+			curr->parent->left = q;
+		}
+		else
+		{
+			curr->parent->right = q;
+		}
+		if(q)
+			q->parent = curr->parent;
+		if(curr->left != nullptr && curr->right == dummy)
+		{
+			TreeNode<T> *temp = max(q);
+			temp->right = dummy;
+			dummy->parent = temp;
+		}
+		delete curr;
+	}
+	else
+	{
+		// two subtrees present
+		// find inorder successor
+		TreeNode<T> *temp = inorder_successor(curr);
+		if(temp->parent != curr)
+		{
+			temp->parent->left = temp->right;
+			if(temp->right)
+				temp->right->parent = temp->parent;
+		}
+		else
+		{
+			curr->right = temp->right;
+			if(temp->right)
+				temp->right->parent = curr;
+		}
+		curr->data = temp->data;
+		delete temp;
+	}
 }
