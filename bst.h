@@ -107,7 +107,7 @@ class BST
 	int totalcount()		{ return cnt; }
 	int leafcount()			{ return leafcount_(root); }
 	int height()			{ return height_(root); }
-	void print();
+	void print()			{ printUtil(root, 0); printf("\n"); }
 	Iterator min_element()	{ return Iterator(min(root)); }
 	Iterator max_element()	{ return cnt == 0 ? Iterator(dummy) : Iterator(max(root)->parent); }
 	Iterator begin()		{ return Iterator(min(root)); }
@@ -117,6 +117,42 @@ class BST
 
 // Implementation
 
+
+template<typename T, typename Compare>
+void BST<T, Compare>::release(TreeNode<T> *root)
+{
+	if(root)
+	{
+		release(root->left);
+		release(root->right);
+		delete root;
+	}
+	return;
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::printUtil(TreeNode<T> *root, int space) 
+{ 
+    // Base case 
+    if (root == nullptr || root == dummy) 
+        return; 
+  
+    // Increase distance between levels 
+    space += COUNT; 
+  
+    // Process right child first 
+    printUtil(root->right, space); 
+  
+    // Print current node after space 
+    // count 
+    printf("\n"); 
+    for (int i = COUNT; i < space; i++) 
+        cout<<" "; 
+    cout<<root->data<<"\n"; 
+  
+    // Process left child 
+    printUtil(root->left, space); 
+}
 
 template<typename T, typename Compare>
 TreeNode<T> *BST<T, Compare>::min(TreeNode<T> *node)
@@ -294,49 +330,4 @@ typename BST<T, Compare>::Iterator BST<T, Compare>::search(T x)
 	if(curr == nullptr || curr == dummy)
 		return end();
 	return Iterator(curr);
-}
-
-template<typename T, typename Compare>
-void BST<T, Compare>::release(TreeNode<T> *root)
-{
-	if(root)
-	{
-		release(root->left);
-		release(root->right);
-		delete root;
-	}
-	return;
-}
-
-template<typename T, typename Compare>
-void BST<T, Compare>::printUtil(TreeNode<T> *root, int space) 
-{ 
-    // Base case 
-    if (root == nullptr || root == dummy) 
-        return; 
-  
-    // Increase distance between levels 
-    space += COUNT; 
-  
-    // Process right child first 
-    printUtil(root->right, space); 
-  
-    // Print current node after space 
-    // count 
-    printf("\n"); 
-    for (int i = COUNT; i < space; i++) 
-        cout<<" "; 
-    cout<<root->data<<"\n"; 
-  
-    // Process left child 
-    printUtil(root->left, space); 
-}
- 
-template<typename T, typename Compare>
-// Wrapper over printUtil()
-void BST<T, Compare>::print() 
-{ 
-    // Pass initial space count as 0 
-    printUtil(root, 0); 
-    printf("\n");
 }
