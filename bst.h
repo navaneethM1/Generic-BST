@@ -3,8 +3,8 @@
 using namespace std;
 
 #define COUNT 10
-
-void disp(auto first, auto last)
+template<typename ptr>
+void disp(ptr first, ptr last)
 {
 	while(first != last)
 	{

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "bst.h"
+#include "date.h"
 
 #if 0
 struct MyStringCompare
@@ -79,7 +80,7 @@ int main()
 	return 0;
 #endif
 
-#if 1
+#if 0
 	BST<int> bst;
 	bst.insert(50);
 	bst.insert(30);
@@ -145,5 +146,39 @@ int main()
 
 	return 0;
 #endif
+
+#if 1 
+	BST<Date> d;
+	d.insert({11,11,2021});
+	d.insert({12,9,2021});
+	d.insert({1,1,2019});
+	d.insert({2,10,2020});
+	d.print();
+	cout << *min_element(d.begin(), d.end()) << "\n";
+	cout << *max_element(d.begin(), d.end()) << "\n";
+	cout << *d.min_element() << "\n";
+	cout << *d.max_element() << "\n";
+
+	auto itf = d.search({11,11,2021});
+	if(itf != d.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
+	cout << "Reverse Order\n";
+	auto it = d.end();
+	--it;
+	while(it != d.begin())
+	{
+		cout << *it << "\t";
+		--it;
+	}
+	cout << *it;
+	cout << "\n\n";
+
+#endif 
 
 }
