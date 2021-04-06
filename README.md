@@ -13,10 +13,6 @@ print function and printUtil function were copied from gfg!!
 2. 1_set.cpp: sir’s code which shows how to give a custom compare type
 3. Bst.c: 3rd semester’s bst code - has logic for insert, remove, search, height, etc
 
-# Todo
-1. remove function
-2. Check iterator_traits
-
 # Requirements for T type
 1. Default Constructor : new TreeNode<T>(T())
 2. Optionally provide binary predicate for < comparision : cmp(x, curr->data)

@@ -10,7 +10,7 @@ class Date
 		int mm_;
 		int yy_;
 	public:
-		Date(int dd = 1, int mm = 1, int yy = 1) : dd_(dd), mm_(mm), yy_(yy) { }
+		Date(int dd = 1, int mm = 1, int yy = 1970) : dd_(dd), mm_(mm), yy_(yy) { }
 		friend ostream& operator<<(ostream& o, const Date& d)
 		{
 			return o << d.dd_ << "-" << d.mm_ << "-" << d.yy_;
