@@ -3,8 +3,9 @@
 using namespace std;
 
 #define COUNT 10
-template<typename ptr>
-void disp(ptr first, ptr last)
+
+template<typename ptr_t>
+void disp(ptr_t first, ptr_t last)
 {
 	while(first != last)
 	{
@@ -32,86 +33,86 @@ template<typename T, typename Compare = less<T>>
 class BST
 {
 	private:
-	TreeNode<T> *root;
-	TreeNode<T> *dummy;
-	Compare cmp; // will have operator() overloaded for comparision
-	int cnt;
-	void release(TreeNode<T> *root);
-	void printUtil(TreeNode<T> *root, int space);
-	static TreeNode<T> *min(TreeNode<T> *node);
-	static TreeNode<T> *max(TreeNode<T> *node);
-	static TreeNode<T> *inorder_successor(TreeNode<T> *node);
-	static TreeNode<T> *inorder_predecessor(TreeNode<T> *node);
-	void preorder_(TreeNode<T> *node);
-	void inorder_(TreeNode<T> *node);
-	void postorder_(TreeNode<T> *node);
-	int leafcount_(TreeNode<T> *node);
-	int height_(TreeNode<T> *node);
+		TreeNode<T> *root;
+		TreeNode<T> *dummy;
+		Compare cmp; // will have operator() overloaded for comparision
+		int cnt;
+		void release(TreeNode<T> *root);
+		void printUtil(TreeNode<T> *root, int space);
+		static TreeNode<T> *min(TreeNode<T> *node);
+		static TreeNode<T> *max(TreeNode<T> *node);
+		static TreeNode<T> *inorder_successor(TreeNode<T> *node);
+		static TreeNode<T> *inorder_predecessor(TreeNode<T> *node);
+		void preorder_(TreeNode<T> *node);
+		void inorder_(TreeNode<T> *node);
+		void postorder_(TreeNode<T> *node);
+		int leafcount_(TreeNode<T> *node);
+		int height_(TreeNode<T> *node);
 	public:
-	BST() : root(new TreeNode<T>(T())), dummy(nullptr), cmp(Compare()), cnt(0) { dummy = root; }
-	~BST() { release(root); }
-	BST(const BST&) = delete;
-	BST& operator=(const BST&) = delete;
-	class Iterator
-	{
-		private:
-		TreeNode<T> *p_it_;
-		public:
-		Iterator(TreeNode<T> *p_it) : p_it_(p_it) { }
-		Iterator& operator++() // pre
+		BST() : root(new TreeNode<T>(T())), dummy(nullptr), cmp(Compare()), cnt(0) { dummy = root; }
+		~BST() { release(root); }
+		BST(const BST&) = delete;
+		BST& operator=(const BST&) = delete;
+		class Iterator
 		{
-			p_it_ = inorder_successor(p_it_);
-			return *this;
-		}
-		Iterator operator++(int) // post
-		{
-			Iterator temp(*this);
-			++*this;
-			return temp;
-		}
-		Iterator& operator--() // pre
-		{
-			p_it_ = inorder_predecessor(p_it_);
-			return *this;
-		}
-		Iterator operator--(int) // post
-		{
-			Iterator temp(*this);
-			--*this;
-			return temp;
-		}
-		const T& operator*()
-		{
-			return p_it_->data;
-		}
-		bool operator==(const Iterator& rhs) const
-		{
-			return p_it_ == rhs.p_it_;
-		}
-		bool operator!=(const Iterator& rhs) const
-		{
-			return !(*this == rhs);
-		}
-		typedef ptrdiff_t difference_type; // almost always ptrdiff_t
-		typedef T value_type; // almost always T
-		typedef const TreeNode<T>& reference; // almost always T& or const T&
-		typedef const TreeNode<T>* pointer; // almost always T* or const T*
-		typedef bidirectional_iterator_tag iterator_category;  // usually std::forward_iterator_tag or similar
-	};
-	void insert(T x);
-	Iterator search(T x);
-	void remove(T x);
-	void preorder()			{ cout << "Preorder:  "; preorder_(root); cout << "\n"; }
-	void inorder()			{ cout << "Inorder:   "; inorder_(root); cout << "\n"; }
-	void postorder()		{ cout << "Postorder: "; postorder_(root); cout << "\n"; }
-	int totalcount()		{ return cnt; }
-	int leafcount()			{ return leafcount_(root); }
-	int height()			{ return height_(root); }
-	void print()			{ printUtil(root, 0); printf("\n"); }
-	Iterator min_element()	{ return Iterator(min(root)); }
-	Iterator max_element()	{ return cnt == 0 ? Iterator(dummy) : Iterator(max(root)->parent); }
-	Iterator begin()		{ return Iterator(min(root)); }
-	Iterator end()			{ return Iterator(dummy); }
+			private:
+				TreeNode<T> *p_it_;
+			public:
+				Iterator(TreeNode<T> *p_it) : p_it_(p_it) { }
+				Iterator& operator++() // pre
+				{
+					p_it_ = inorder_successor(p_it_);
+					return *this;
+				}
+				Iterator operator++(int) // post
+				{
+					Iterator temp(*this);
+					++*this;
+					return temp;
+				}
+				Iterator& operator--() // pre
+				{
+					p_it_ = inorder_predecessor(p_it_);
+					return *this;
+				}
+				Iterator operator--(int) // post
+				{
+					Iterator temp(*this);
+					--*this;
+					return temp;
+				}
+				const T& operator*()
+				{
+					return p_it_->data;
+				}
+				bool operator==(const Iterator& rhs) const
+				{
+					return p_it_ == rhs.p_it_;
+				}
+				bool operator!=(const Iterator& rhs) const
+				{
+					return !(*this == rhs);
+				}
+				typedef ptrdiff_t difference_type; // almost always ptrdiff_t
+				typedef T value_type; // almost always T
+				typedef const TreeNode<T>& reference; // almost always T& or const T&
+				typedef const TreeNode<T>* pointer; // almost always T* or const T*
+				typedef bidirectional_iterator_tag iterator_category;  // usually std::forward_iterator_tag or similar
+		};
+		void insert(T x);
+		Iterator search(T x);
+		void remove(T x);
+		void preorder()			{ cout << "Preorder:  "; preorder_(root); cout << "\n"; }
+		void inorder()			{ cout << "Inorder:   "; inorder_(root); cout << "\n"; }
+		void postorder()		{ cout << "Postorder: "; postorder_(root); cout << "\n"; }
+		int totalcount()		{ return cnt; }
+		int leafcount()			{ return leafcount_(root); }
+		int height()			{ return height_(root); }
+		void print()			{ printUtil(root, 0); printf("\n"); }
+		Iterator min_element()	{ return Iterator(min(root)); }
+		Iterator max_element()	{ return cnt == 0 ? Iterator(dummy) : Iterator(max(root)->parent); }
+		Iterator begin()		{ return Iterator(min(root)); }
+		Iterator end()			{ return Iterator(dummy); }
 };
 
 

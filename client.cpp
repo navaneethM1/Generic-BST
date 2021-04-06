@@ -1,6 +1,6 @@
 #include <algorithm>
-#include "bst.h"
-#include "date.h"
+#include "./include/bst.h"
+#include "./include/date.h"
 
 #if 0
 struct MyStringCompare
@@ -13,7 +13,7 @@ struct MyStringCompare
 int main()
 {
 
-#if 0
+#if 1
 	BST<string> bst;
 	// BST<string, MyStringCompare> bst;
 	bst.insert("rama");
@@ -147,20 +147,20 @@ int main()
 	return 0;
 #endif
 
-#if 1 
-	BST<Date> d;
-	d.insert({11,11,2021});
-	d.insert({12,9,2021});
-	d.insert({1,1,2019});
-	d.insert({2,10,2020});
-	d.print();
-	cout << *min_element(d.begin(), d.end()) << "\n";
-	cout << *max_element(d.begin(), d.end()) << "\n";
-	cout << *d.min_element() << "\n";
-	cout << *d.max_element() << "\n";
+#if 0
+	BST<Date> bst;
+	bst.insert({11,11,2021});
+	bst.insert({12,9,2021});
+	bst.insert({1,1,2019});
+	bst.insert({2,10,2020});
+	bst.print();
+	cout << *min_element(bst.begin(), bst.end()) << "\n";
+	cout << *max_element(bst.begin(), bst.end()) << "\n";
+	cout << *bst.min_element() << "\n";
+	cout << *bst.max_element() << "\n";
 
-	auto itf = d.search({11,11,2021});
-	if(itf != d.end())
+	auto itf = bst.search({11,11,2021});
+	if(itf != bst.end())
 	{
 		cout << *itf << " found\n\n";
 	}
@@ -169,9 +169,9 @@ int main()
 		cout << "not found\n\n";
 	}
 	cout << "Reverse Order\n";
-	auto it = d.end();
+	auto it = bst.end();
 	--it;
-	while(it != d.begin())
+	while(it != bst.begin())
 	{
 		cout << *it << "\t";
 		--it;
@@ -179,6 +179,7 @@ int main()
 	cout << *it;
 	cout << "\n\n";
 
-#endif 
+	return 0;
+#endif
 
 }
