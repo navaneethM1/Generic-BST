@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <vector>
 #include "./include/bst.h"
 #include "./include/date.h"
 
@@ -13,7 +14,7 @@ struct MyStringCompare
 int main()
 {
 
-#if 1
+#if 0
 	BST<string> bst;
 	// BST<string, MyStringCompare> bst;
 	bst.insert("rama");
@@ -22,6 +23,75 @@ int main()
 	bst.insert("rama");
 	bst.insert("zz");
 	bst.insert("aa");
+
+	bst.print();
+	cout << bst.totalcount() << "\n\n";
+
+	cout << *min_element(bst.begin(), bst.end()) << "\n";
+	cout << *max_element(bst.begin(), bst.end()) << "\n";
+	cout << *bst.min_element() << "\n";
+	cout << *bst.max_element() << "\n";
+	cout << "\n";
+
+	cout << "Inorder\n";
+	disp(bst.begin(), bst.end());
+	cout << "\n";
+
+	cout << "Reverse Order\n";
+	auto it = bst.end();
+	--it;
+	while(it != bst.begin())
+	{
+		cout << *it << "\t";
+		--it;
+	}
+	cout << *it;
+	cout << "\n\n";
+
+	auto itf = find(bst.begin(), bst.end(), "zebra");
+	if(itf != bst.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
+
+	cout << count(bst.begin(), bst.end(), "nothing") << "\n\n";
+
+	itf = bst.search("ashok");
+	if(itf != bst.end())
+	{
+		cout << *itf << " found\n\n";
+	}
+	else
+	{
+		cout << "not found\n\n";
+	}
+
+	bst.preorder();
+	bst.inorder();
+	bst.postorder();
+	cout << "\n";
+
+	cout << "Leafcount: " << bst.leafcount() << "\n";
+	cout << "Height: " << bst.height() << "\n\n";
+
+	return 0;
+#endif
+
+#if 1
+	// BST<string> bst;
+	// BST<string, MyStringCompare> bst;
+	vector<string> v = { "rama", "ashok", "zebra", "rama", "zz", "aa" };
+	// bst.insert("rama");
+	// bst.insert("ashok");
+	// bst.insert("zebra");
+	// bst.insert("rama");
+	// bst.insert("zz");
+	// bst.insert("aa");
+	BST<string> bst(v.begin(), v.end());
 
 	bst.print();
 	cout << bst.totalcount() << "\n\n";

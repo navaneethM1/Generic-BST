@@ -50,6 +50,8 @@ class BST
 		int height_(TreeNode<T> *node);
 	public:
 		BST() : root(new TreeNode<T>(T())), dummy(nullptr), cmp(Compare()), cnt(0) { dummy = root; }
+		template<typename InputIterator>
+		BST(InputIterator first, InputIterator last) : BST() { while(first != last) { insert(*first); ++first; } }
 		~BST() { release(root); }
 		BST(const BST&) = delete;
 		BST& operator=(const BST&) = delete;
@@ -135,7 +137,7 @@ template<typename T, typename Compare>
 void BST<T, Compare>::printUtil(TreeNode<T> *root, int space) 
 { 
     // Base case 
-    if (root == nullptr) 
+    if (root == nullptr || root == dummy) 
         return; 
   
     // Increase distance between levels 
