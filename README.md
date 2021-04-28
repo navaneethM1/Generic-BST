@@ -8,5 +8,5 @@ Client.cpp: client file
 # Requirements for T type
 1. Default Constructor : new TreeNode<T>(T())
 2. Optionally provide binary predicate for < comparision : cmp(x, curr->data)
-3. Must provide assignment operator : curr->data = temp->data (in remove function)
+3. Must provide copy assignment operator : curr->data = temp->data (in remove function)
 4. Must provide << operator : cout << *it
