@@ -15,8 +15,8 @@ g++ client.cpp
 ```
 
 # Requirements for T type
-1. Default Constructor : new TreeNode<T>(T())
+1. Default Constructor : new TreeNode\<T>(T())
 2. Optionally provide binary predicate for < comparision : cmp(x, curr->data)
-3. But must have a < comparision if binary predicate is not explicitly provided : less<T> requires < to be defined for T type
+3. But must have a < comparision if binary predicate is not explicitly provided : less\<T> requires < to be defined for T type
 4. Must provide copy assignment operator : curr->data = temp->data (in remove function)
 5. Must provide << operator : cout << *it
