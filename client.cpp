@@ -81,7 +81,7 @@ int main()
 	return 0;
 #endif
 
-#if 1
+#if 0
 	// BST<string> bst;
 	// BST<string, MyStringCompare> bst;
 	vector<string> v = { "rama", "ashok", "zebra", "rama", "zz", "aa" };
@@ -91,8 +91,11 @@ int main()
 	// bst.insert("rama");
 	// bst.insert("zz");
 	// bst.insert("aa");
-	BST<string> bst(v.begin(), v.end());
-
+	BST<string> bst1(v.begin(), v.end());
+	BST<string> bst;
+	cout << "Copy assignment\n";
+	bst = bst1;
+	cout << "\n";
 	bst.print();
 	cout << bst.totalcount() << "\n\n";
 
@@ -252,4 +255,29 @@ int main()
 	return 0;
 #endif
 
+#if 1
+	vector<int> a{10, 1, 3,20, 15};
+	vector<int> b{12,4,2,54,121,50,52};
+	BST<int> rhs(begin(a), end(a));
+	BST<int> lhs(begin(b), end(b));
+	// cout << rhs.height();
+	cout << "First BST\n";
+	rhs.print();
+	cout << "Second BST\n";
+	lhs.print();
+	cout << "\nCopy Assignment\n";
+	lhs = rhs;
+	lhs.print();
+
+	// cout << "\nCount " << lhs.totalcount() << "\n";
+#endif
+
+#if 0
+	vector<int> b{12,4,2,54,121};
+	BST<int> rhs(begin(b), end(b));
+	cout << "rhs\n";
+	rhs.print();
+	BST<int> lhs(rhs);
+	lhs.print();
+#endif
 }

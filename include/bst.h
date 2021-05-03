@@ -48,13 +48,14 @@ class BST
 		void postorder_(TreeNode<T> *node);
 		int leafcount_(TreeNode<T> *node);
 		int height_(TreeNode<T> *node);
+		void preorder_insert(TreeNode<T> *node, TreeNode<T> *rhs_dummy);
 	public:
 		BST() : root(new TreeNode<T>(T())), dummy(nullptr), cmp(Compare()), cnt(0) { dummy = root; }
 		template<typename InputIterator>
 		BST(InputIterator first, InputIterator last) : BST() { while(first != last) { insert(*first); ++first; } }
 		~BST() { release(root); }
-		BST(const BST&) = delete;
-		BST& operator=(const BST&) = delete;
+		BST(const BST&);
+		BST& operator=(const BST&);
 		class Iterator
 		{
 			private:
@@ -119,8 +120,6 @@ class BST
 
 
 // Implementation
-
-
 template<typename T, typename Compare>
 void BST<T, Compare>::release(TreeNode<T> *root)
 {
@@ -256,6 +255,39 @@ int BST<T, Compare>::height_(TreeNode<T> *node)
 	if(lh > rh)
 		return lh + 1;
 	return rh + 1;
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::preorder_insert(TreeNode<T> *node, TreeNode<T> *rhs_dummy)
+{
+	if(node == nullptr || node == rhs_dummy)
+		return;
+	insert(node->data);
+	preorder_insert(node->left, rhs_dummy);
+	preorder_insert(node->right, rhs_dummy);
+}
+
+template<typename T, typename Compare>
+BST<T, Compare>::BST(const BST<T, Compare>& rhs)
+: root(new TreeNode<T>(T())), dummy(nullptr), cmp(rhs.cmp), cnt(0)
+{
+	dummy = root;
+	preorder_insert(rhs.root, rhs.dummy);
+}
+
+template<typename T, typename Compare>
+BST<T, Compare>& BST<T, Compare>::operator=(const BST<T, Compare>& rhs)
+{
+	if(this != &rhs)
+	{
+		release(root);
+		root = new TreeNode<T>(T());
+		dummy = root;
+		cmp = rhs.cmp;
+		cnt = 0;
+		preorder_insert(rhs.root, rhs.dummy);
+	}
+	return *this;
 }
 
 template<typename T, typename Compare>
