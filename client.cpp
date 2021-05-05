@@ -11,7 +11,7 @@ struct MyStringCompare
 
 int main()
 {
-	#if 0
+	#if 1
 	BST<int> bst;
 	bst.insert(50);
 	bst.insert(30);
@@ -92,10 +92,10 @@ int main()
 	cout << "Leafcount: " << bst.leafcount() << "\n";
 	cout << "Height: " << bst.height() << "\n\n";
 
+	// To demonstrate that iterator trait is working
 	BST<int>::Iterator::value_type temp;
 	temp = 10;
-
-	#endif	
+	#endif
 
 	#if 0
 	//String with Explicit binary predicate(Comparator)

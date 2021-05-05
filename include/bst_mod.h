@@ -35,7 +35,9 @@ class BST
 	private:
 		TreeNode<T> *root;
 		TreeNode<T> *dummy;
-		Compare cmp; // will have operator() overloaded for comparision
+		TreeNode<T> *lb;
+		TreeNode<T> *ub;
+		Compare cmp; // will have operator() overloaded for comparison
 		int cnt;
 		void release(TreeNode<T> *root);
 		void printUtil(TreeNode<T> *root, int space);
@@ -49,6 +51,8 @@ class BST
 		int leafcount_(TreeNode<T> *node);
 		int height_(TreeNode<T> *node);
 		void preorder_insert(TreeNode<T> *node, TreeNode<T> *rhs_dummy);
+		void lower_bound_(TreeNode<T> *node, int value);
+		void upper_bound_(TreeNode<T> *node, int value);
 	public:
 		BST() : root(new TreeNode<T>(T())), dummy(nullptr), cmp(Compare()), cnt(0) { dummy = root; }
 		template<typename InputIterator>
@@ -105,6 +109,9 @@ class BST
 		void insert(T x);
 		Iterator search(T x);
 		void remove(T x);
+		Iterator lower_bound(T x);
+		Iterator upper_bound(T x);
+		pair<Iterator, Iterator> equal_range(T x);
 		void preorder()			{ cout << "Preorder:  "; preorder_(root); cout << "\n"; }
 		void inorder()			{ cout << "Inorder:   "; inorder_(root); cout << "\n"; }
 		void postorder()		{ cout << "Postorder: "; postorder_(root); cout << "\n"; }
@@ -120,6 +127,8 @@ class BST
 
 
 // Implementation
+
+
 template<typename T, typename Compare>
 void BST<T, Compare>::release(TreeNode<T> *root)
 {
@@ -135,25 +144,25 @@ void BST<T, Compare>::release(TreeNode<T> *root)
 template<typename T, typename Compare>
 void BST<T, Compare>::printUtil(TreeNode<T> *root, int space) 
 { 
-    // Base case 
-    if (root == nullptr || root == dummy) 
-        return; 
+	// Base case 
+	if (root == nullptr || root == dummy) 
+		return; 
   
-    // Increase distance between levels 
-    space += COUNT; 
+	// Increase distance between levels 
+	space += COUNT; 
   
-    // Process right child first 
-    printUtil(root->right, space); 
+	// Process right child first 
+	printUtil(root->right, space); 
   
-    // Print current node after space 
-    // count 
-    printf("\n"); 
-    for (int i = COUNT; i < space; i++) 
-        cout<<" "; 
-    cout<<root->data<<"\n"; 
+	// Print current node after space 
+	// count 
+	printf("\n"); 
+	for (int i = COUNT; i < space; i++) 
+		cout<<" "; 
+	cout<<root->data<<"\n"; 
   
-    // Process left child 
-    printUtil(root->left, space); 
+	// Process left child 
+	printUtil(root->left, space); 
 }
 
 template<typename T, typename Compare>
@@ -268,6 +277,53 @@ void BST<T, Compare>::preorder_insert(TreeNode<T> *node, TreeNode<T> *rhs_dummy)
 }
 
 template<typename T, typename Compare>
+void BST<T, Compare>::lower_bound_(TreeNode<T> *node, int value)
+{
+	if (node == nullptr || node == dummy)
+	{
+		return;
+	}
+	if (! cmp(value, node->data) && ! cmp(node->data, value))
+	{
+		lb = node;
+		return;
+	}
+	else if (! cmp(node->data, value))
+	{
+		lb = node;
+		lower_bound_(node->left, value);
+	}
+	else
+	{
+		lower_bound_(node->right, value);
+	}
+}
+
+template<typename T, typename Compare>
+void BST<T, Compare>::upper_bound_(TreeNode<T> *node, int value)
+{
+	if (node == nullptr || node == dummy)
+	{
+		if(node == dummy)
+			ub = dummy;
+		return;
+	}
+	if (! cmp(value, node->data) && ! cmp(node->data, value))
+	{
+		upper_bound_(node->right, value);
+	}
+	else if (! cmp(node->data, value))
+	{
+		ub = node;
+		upper_bound_(node->left, value);
+	}
+	else
+	{
+		upper_bound_(node->right, value);
+	}
+}
+
+template<typename T, typename Compare>
 BST<T, Compare>::BST(const BST<T, Compare>& rhs)
 : root(new TreeNode<T>(T())), dummy(nullptr), cmp(rhs.cmp), cnt(0)
 {
@@ -311,7 +367,19 @@ void BST<T, Compare>::insert(T x)
 			bool lesser = cmp(x, curr->data);
 			if(!lesser && !cmp(curr->data, x))
 			{
-				// duplicates not allowed
+				// duplicates allowed
+				++cnt;
+				TreeNode<T> *temp = new TreeNode<T>(x);
+				if(curr->right) {
+					temp->right = curr->right;
+					curr->right->parent = temp;
+					curr->right = temp;
+					temp->parent = curr;
+				}
+				else {
+					curr->right = temp;
+					temp->parent = curr;
+				}
 				return;
 			}
 			if(lesser)
@@ -443,4 +511,28 @@ void BST<T, Compare>::remove(T x)
 		curr->data = temp->data;
 		delete temp;
 	}
+}
+
+template<typename T, typename Compare>
+typename BST<T, Compare>::Iterator BST<T, Compare>::lower_bound(T x)
+{
+	lower_bound_(root, x);
+	return Iterator(lb);
+}
+
+template<typename T, typename Compare>
+typename BST<T, Compare>::Iterator BST<T, Compare>::upper_bound(T x)
+{
+	upper_bound_(root, x);
+	return Iterator(ub);
+}
+
+template<typename T, typename Compare>
+pair<typename BST<T, Compare>::Iterator, typename BST<T, Compare>::Iterator> BST<T, Compare>::equal_range(T x)
+{
+	typename BST<T, Compare>::Iterator ele_end = search(x);
+	typename BST<T, Compare>::Iterator ele_begin = ele_end;
+	if(ele_end != end())
+		while(*++ele_end == x);
+	return make_pair(ele_begin, ele_end);
 }

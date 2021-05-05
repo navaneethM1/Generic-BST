@@ -5,8 +5,10 @@ Generic Binary Search Tree implementation using C++ templates and Compare predic
 include
 - bst.h - main header file having implementation of BST
 - date.h - contains implementation of user defined Date class
+- bst_mod.h - contains modified header file (after implementing lower_bound, upper_bound, and equal_range)
 
 client.cpp - client program
+client_mod.cpp - new client program making use of lower_bound, upper_bound, and equal_range
 
 # Compile and run
 ```bash
